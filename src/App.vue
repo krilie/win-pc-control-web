@@ -11,7 +11,7 @@
 
         <v-content>
             <!--<HelloWorld/>-->
-            <Authorization v-show="!isAuthorizationed"></Authorization>
+            <Authorization v-show="!isAuthorizationed" @vertifyok="VertifyOk"></Authorization>
             <WinPcControl v-show="isAuthorizationed"></WinPcControl>
         </v-content>
 
@@ -52,7 +52,7 @@
                 isAuthorizationed: false,
                 snackbar: false,
                 snackbarText:"dfas",
-                snackbarTimeOut:6000
+                snackbarTimeOut:60000
             }
         },
         methods: {
@@ -63,6 +63,14 @@
                     this.snackbar=true;
                     this.snackbarText=error.response.status+":"+error.response.statusText
                 })
+            },
+            VertifyOk(ok,msg){
+                if (ok){
+                    this.isAuthorizationed=true
+                }else{
+                    this.snackbar=true;
+                    this.snackbarText=msg
+                }
             }
         },
         created() {
