@@ -1,38 +1,72 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
+    <v-app>
+        <v-toolbar>
+            <v-spacer></v-spacer>
+            <v-toolbar-title v-text="title" class="text-md-center"></v-toolbar-title>
+            <v-spacer></v-spacer>
+            <!--<v-btn icon>-->
+            <!--<v-icon>more_vert</v-icon>-->
+            <!--</v-btn>-->
+        </v-toolbar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+        <v-content>
+            <!--<HelloWorld/>-->
+            <Authorization v-show="!isAuthorizationed"></Authorization>
+            <WinPcControl v-show="isAuthorizationed"></WinPcControl>
+        </v-content>
+
+        <v-snackbar
+                v-model="snackbar"
+                :bottom=true
+                :right=true
+                :timeout="snackbarTimeOut"
+                :multi-line="true"
+        >
+            {{ snackbarText }}
+            <v-btn
+                    color="pink"
+                    flat
+                    @click="snackbar = false"
+            >
+                Close
+            </v-btn>
+        </v-snackbar>
+
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+    // import HelloWorld from './components/HelloWorld'
+    import Authorization from './components/Authorization'
+    import WinPcControl from './components/WinPcControl'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  },
-  data () {
-    return {
-      //
+    export default {
+        name: 'App',
+        components: {
+            // HelloWorld
+            Authorization, WinPcControl
+        },
+        data() {
+            return {
+                title: "one for win pc",
+                isAuthorizationed: false,
+                snackbar: false,
+                snackbarText:"dfas",
+                snackbarTimeOut:6000
+            }
+        },
+        methods: {
+            Vertify() {
+                this.$axios.post("/user/vertify").then((response) => {
+                    this.isAuthorizationed=true
+                }).catch((error) => {
+                    this.snackbar=true;
+                    this.snackbarText=error.response.status+":"+error.response.statusText
+                })
+            }
+        },
+        created() {
+          this.Vertify()
+        }
     }
-  }
-}
 </script>

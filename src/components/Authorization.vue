@@ -4,7 +4,10 @@
 
 <script>
     export default {
-        name: "Authorization"
+        name: "Authorization",
+        data: () => ({
+
+        })
     }
 </script>
 
