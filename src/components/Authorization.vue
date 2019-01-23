@@ -1,20 +1,27 @@
 <template>
-    <v-container>
-            <v-form>
-                <v-layout>
-                    <v-flex xs12 md4 class="align-content-center">
-                        <v-text-field
-                                v-model="secretText"
-                                :counter="64"
-                                label="secret text"
-                                required
-                        ></v-text-field>
-                        <v-btn @click="Vertify" class="align-center">
-                            提交登录
-                        </v-btn>
-                    </v-flex>
-                </v-layout>
-            </v-form>
+    <v-container justify-center align-center>
+        <v-spacer></v-spacer>
+
+        <v-layout column>
+            <v-text-field
+                    v-model="secretText"
+                    :counter="64"
+                    label="secret text"
+                    required
+            ></v-text-field>
+
+            <v-container>
+                <v-spacer></v-spacer>
+                <v-btn @click="Vertify">
+                    提交登录
+                </v-btn>
+                <v-spacer></v-spacer>
+            </v-container>
+
+        </v-layout>
+
+        <v-spacer></v-spacer>
+
     </v-container>
 </template>
 
@@ -24,12 +31,12 @@
         data: () => ({
             secretText: ""
         }),
-        methods:{
-            Vertify(){
-                this.$axios.post("/user/vertify",{secret:this.secretText}).then((response)=>{
-                    this.$emit('vertifyok',true,null) //发送事件，通知父组件
-                }).catch((error)=>{
-                    this.$emit('vertifyok',false,error.response.status+": "+ error.response.statusText)
+        methods: {
+            Vertify() {
+                this.$axios.post("/auth/login", {secret_key: this.secretText}).then((response) => {
+                    this.$emit('vertifyok', true, null) //发送事件，通知父组件
+                }).catch((error) => {
+                    this.$emit('vertifyok', false, error.response.status + ": " + error.response.statusText)
                 })
             }
         }

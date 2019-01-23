@@ -11,8 +11,8 @@
 
         <v-content>
             <!--<HelloWorld/>-->
-            <Authorization v-show="!isAuthorizationed" @vertifyok="VertifyOk"></Authorization>
-            <WinPcControl v-show="isAuthorizationed"></WinPcControl>
+            <Authorization v-show="isAuthorizationed" @vertifyok="VertifyOk"></Authorization>
+            <WinPcControl v-show="!isAuthorizationed"></WinPcControl>
         </v-content>
 
         <v-snackbar
@@ -48,33 +48,33 @@
         },
         data() {
             return {
-                title: "one for win pc",
+                title: "pc control app",
                 isAuthorizationed: false,
                 snackbar: false,
-                snackbarText:"dfas",
-                snackbarTimeOut:60000
+                snackbarText: "dfas",
+                snackbarTimeOut: 60000
             }
         },
         methods: {
             Vertify() {
-                this.$axios.post("/user/vertify").then((response) => {
-                    this.isAuthorizationed=true
+                this.$axios.post("/auth/verity").then((response) => {
+                    this.isAuthorizationed = true
                 }).catch((error) => {
-                    this.snackbar=true;
-                    this.snackbarText=error.response.status+":"+error.response.statusText
+                    this.snackbar = true;
+                    this.snackbarText = error.response.status + ":" + error.response.statusText
                 })
             },
-            VertifyOk(ok,msg){
-                if (ok){
-                    this.isAuthorizationed=true
-                }else{
-                    this.snackbar=true;
-                    this.snackbarText=msg
+            VertifyOk(ok, msg) {
+                if (ok) {
+                    this.isAuthorizationed = true
+                } else {
+                    this.snackbar = true;
+                    this.snackbarText = msg
                 }
             }
         },
         created() {
-          this.Vertify()
+            this.Vertify()
         }
     }
 </script>
