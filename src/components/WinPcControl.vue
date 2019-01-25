@@ -82,7 +82,6 @@
                     //调用成功
                     this.$emit("ShowSnackarbar", "成功:" + action, 1000);
                 }).catch((error) => {
-                    this.monitor = false; //可以这样写
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
                 })
             },
@@ -94,7 +93,6 @@
                     //this.$emit("ShowSnackarbar", "音量:" + val, 1000);
                     //成功不做什么
                 }).catch((error) => {
-                    this.volume=oldval;//可以这样写
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
                 })
             }
