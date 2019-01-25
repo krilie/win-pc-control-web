@@ -60,16 +60,14 @@
                 this.$axios.post("/auth/verity").then((response) => {
                     this.isAuthorizationed = true
                 }).catch((error) => {
-                    this.snackbar = true;
-                    this.snackbarText = error.response.status + ":" + error.response.statusText
+                    this.ShowSnackbar(error.response.status + ":" + error.response.statusText,6000);
                 })
             },
             VertifyOk(ok, msg) {
                 if (ok) {
                     this.isAuthorizationed = true
                 } else {
-                    this.snackbar = true;
-                    this.snackbarText = msg
+                    this.ShowSnackbar(msg);
                 }
             },
             ShowSnackbar(msg, time) {

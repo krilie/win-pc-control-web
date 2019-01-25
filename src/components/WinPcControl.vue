@@ -14,7 +14,6 @@
                         v-model="volume"
                         :min="0"
                         :max="100"
-                        prepend-icon="volume_up"
                 ></v-slider>
             </v-flex>
 
@@ -29,7 +28,7 @@
             <v-flex xs12>
                 <v-btn-toggle v-model="toggle_exclusive">
                     <v-btn flat large @click="MediaControl('prev')">
-                        <v-icon>skip_previous</v-icon>
+                        <v-icon :src="required('../assets/prev.png')"></v-icon>
                     </v-btn>
                     <v-btn flat large @click="MediaControl('stop')">
                         <v-icon>stop</v-icon>
@@ -83,17 +82,19 @@
                     //调用成功
                     this.$emit("ShowSnackarbar", "成功:" + action, 1000);
                 }).catch((error) => {
-                    this.monitor = false;
+                    this.monitor = false; //可以这样写
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
                 })
             },
-            volume(val) {
+            volume(val,oldval) {
                 //音量调整
                 let data = new FormData(); //form 数据 post
                 data.append('value', val);
                 this.$axios.post("/volume/value", data).then((response) => {
-                    this.$emit("ShowSnackarbar", "音量:" + val, 1000);
+                    //this.$emit("ShowSnackarbar", "音量:" + val, 1000);
+                    //成功不做什么
                 }).catch((error) => {
+                    this.volume=oldval;//可以这样写
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
                 })
             }
