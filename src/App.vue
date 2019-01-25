@@ -12,7 +12,7 @@
         <v-content>
             <!--<HelloWorld/>-->
             <Authorization v-show="isAuthorizationed" @vertifyok="VertifyOk"></Authorization>
-            <WinPcControl v-show="!isAuthorizationed"></WinPcControl>
+            <WinPcControl v-show="!isAuthorizationed" @ShowSnackarbar="ShowSnackbar"></WinPcControl>
         </v-content>
 
         <v-snackbar
@@ -70,6 +70,13 @@
                 } else {
                     this.snackbar = true;
                     this.snackbarText = msg
+                }
+            },
+            ShowSnackbar(msg, time) {
+                this.snackbar = true;
+                this.snackbarText = msg;
+                if (time != null) {
+                    this.snackbarTimeOut = time;
                 }
             }
         },
