@@ -11,8 +11,8 @@
 
         <v-content>
             <!--<HelloWorld/>-->
-            <Authorization v-show="isAuthorizationed" @vertifyok="VertifyOk"></Authorization>
-            <WinPcControl v-show="!isAuthorizationed" @ShowSnackarbar="ShowSnackbar"></WinPcControl>
+            <Authorization v-show="!isAuthorizationed" @vertifyok="VertifyOk" @shouldLogin="NotVertifiedAndShowLogin"></Authorization>
+            <WinPcControl v-show="isAuthorizationed" @ShowSnackarbar="ShowSnackbar" @shouldLogin="NotVertifiedAndShowLogin"></WinPcControl>
         </v-content>
 
         <v-snackbar
@@ -69,6 +69,10 @@
                 } else {
                     this.ShowSnackbar(msg);
                 }
+            },
+            NotVertifiedAndShowLogin(){
+                this.ShowSnackbar("请重新登录",3000)
+                this.isAuthorizationed = false;
             },
             ShowSnackbar(msg, time) {
                 this.snackbar = true;

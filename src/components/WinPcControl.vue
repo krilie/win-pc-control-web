@@ -83,6 +83,8 @@
                     this.$emit("ShowSnackarbar", "成功:" + action, 1000);
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
+                    if (error.response.status === 401)
+                        this.$emit("shouldLogin");
                 })
             },
             volume(val,oldval) {
@@ -94,6 +96,8 @@
                     //成功不做什么
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
+                    if (error.response.status === 401)
+                        this.$emit("shouldLogin");
                 })
             }
         },
@@ -110,6 +114,8 @@
                     //调用成功
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
+                    if (error.response.status === 401)
+                        this.$emit("shouldLogin");
                 })
             },
             //媒体控制
@@ -129,6 +135,8 @@
                     }
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
+                    if (error.response.status === 401)
+                        this.$emit("shouldLogin");
                 })
             },
             VolumeUpDown(action) {
