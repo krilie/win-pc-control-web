@@ -19,33 +19,32 @@
 
             <v-flex xs12>
                 <v-layout row wrap>
-                    <v-btn class="primary" @click="VolumeUpDown('+')">音量+</v-btn>
                     <v-btn class="primary" @click="VolumeUpDown('-')">音量-</v-btn>
+                    <v-btn class="primary" @click="VolumeUpDown('+')">音量+</v-btn>
                 </v-layout>
 
             </v-flex>
 
             <v-flex xs12>
-                <v-btn-toggle v-model="toggle_exclusive">
                     <v-btn flat large @click="MediaControl('prev')">
-                        <v-icon :src="required('../assets/prev.png')"></v-icon>
+                        <v-img :src="require('../assets/prev.png')" />
                     </v-btn>
                     <v-btn flat large @click="MediaControl('stop')">
-                        <v-icon>stop</v-icon>
+                        <v-img :src="require('../assets/stop.png')" />
                     </v-btn>
                     <v-btn flat large @click="MediaControl('play')">
-                        <v-icon>play_arrow</v-icon>
+                        <v-img :src="require('../assets/play.png')" />
                     </v-btn>
                     <v-btn flat large @click="MediaControl('pause')">
-                        <v-icon>pause</v-icon>
+                        <v-img :src="require('../assets/pause.png')" />
                     </v-btn>
                     <v-btn flat large @click="MediaControl('mute')">
-                        <v-icon>volume_mute</v-icon>
+                        <v-img :src="muteUrl" />
                     </v-btn>
                     <v-btn flat large @click="MediaControl('next')">
-                        <v-icon>skip_next</v-icon>
+                        <v-img :src="require('../assets/next.png')" />
                     </v-btn>
-                </v-btn-toggle>
+
             </v-flex>
 
 
@@ -63,7 +62,8 @@
         data: () => {
             return {
                 monitor: "true", //"off"
-                volume: 50
+                volume: 50,
+                muteUrl:require('../assets/unmute.png')
             }
         },
         watch: {
@@ -116,10 +116,17 @@
             // play pause stop next prev
             // vol_up vol_down mute
             MediaControl(action) {
+
                 let data = new FormData();
                 data.append("action", action)
                 this.$axios.post("/media/status", data).then((response) => {
                     this.$emit("ShowSnackarbar", "成功：" + response.body + " " + action, 1000);
+                    if (action === "mute") {
+                        if (this.muteUrl === require('../assets/mute.png'))
+                            this.muteUrl = require('../assets/unmute.png')
+                        else
+                            this.muteUrl = require('../assets/mute.png')
+                    }
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
                 })
@@ -127,8 +134,12 @@
             VolumeUpDown(action) {
                 if (action === "+") {
                     this.MediaControl("vol_up");
+                    if (this.volume<100)
+                        this.volume=this.volume+1;
                 } else if (action === "-") {
                     this.MediaControl("vol_down");
+                    if (this.volume>=1)
+                        this.volume=this.volume-1;
                 } else {
                     //没有时间参数的调用
                     this.$emit("ShowSnackarbar", "媒体控制参数错误");
