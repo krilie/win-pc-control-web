@@ -33,7 +33,9 @@
         }),
         methods: {
             Vertify() {
-                this.$axios.post("/auth/login", {secret_key: this.secretText}).then((response) => {
+                let data = new FormData();
+                data.append("secret_key", this.secretText)
+                this.$axios.post("/auth/login", data).then((response) => {
                     this.$emit('vertifyok', true, null) //发送事件，通知父组件
                 }).catch((error) => {
                     this.$emit('vertifyok', false, error.response.status + ": " + error.response.statusText)
