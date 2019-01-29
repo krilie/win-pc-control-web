@@ -141,11 +141,11 @@
             },
             VolumeUpDown(action) {
                 if (action === "+") {
-                    this.MediaControl("vol_up");
+                    //this.MediaControl("vol_up");
                     if (this.volume<100)
                         this.volume=this.volume+1;
                 } else if (action === "-") {
-                    this.MediaControl("vol_down");
+                    //this.MediaControl("vol_down");
                     if (this.volume>=1)
                         this.volume=this.volume-1;
                 } else {
