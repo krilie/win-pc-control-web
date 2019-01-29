@@ -78,7 +78,7 @@
                 //发出请求
                 let data = new FormData();
                 data.append("action", action)
-                this.$axios.post("/sysctl/action", data).then((response) => {
+                this.$axios.post("/api/sysctl/action", data).then((response) => {
                     //调用成功
                     this.$emit("ShowSnackarbar", "成功:" + action, 1000);
                 }).catch((error) => {
@@ -91,7 +91,7 @@
                 //音量调整
                 let data = new FormData(); //form 数据 post
                 data.append('value', val);
-                this.$axios.post("/volume/value", data).then((response) => {
+                this.$axios.post("/api/volume/value", data).then((response) => {
                     //this.$emit("ShowSnackarbar", "音量:" + val, 1000);
                     //成功不做什么
                 }).catch((error) => {
@@ -110,7 +110,7 @@
                 //发出请求
                 let data = new FormData();
                 data.append("action", "shutdown")
-                this.$axios.post("/sysctl/action", data).then((response) => {
+                this.$axios.post("/api/sysctl/action", data).then((response) => {
                     //调用成功
                 }).catch((error) => {
                     this.$emit("ShowSnackarbar", error.response.status + ":" + error.response.statusText, 1000);
@@ -125,7 +125,7 @@
 
                 let data = new FormData();
                 data.append("action", action)
-                this.$axios.post("/media/status", data).then((response) => {
+                this.$axios.post("/api/media/status", data).then((response) => {
                     this.$emit("ShowSnackarbar", "成功：" + response.body + " " + action, 1000);
                     if (action === "mute") {
                         if (this.muteUrl === require('../assets/mute.png'))
